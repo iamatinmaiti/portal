@@ -214,6 +214,23 @@
     .project-links { display: flex; flex-wrap: wrap; gap: 1.15rem; padding-top: .9rem; border-top: 1px solid var(--line); }
     .text-link { display: inline-flex; align-items: center; gap: .4rem; font-size: .84rem; font-weight: 650; }
 
+    .blog-feature {
+      padding: clamp(1.35rem, 4vw, 2.25rem);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .blog-meta { display: flex; flex-wrap: wrap; gap: .55rem; margin-bottom: 1rem; }
+    .blog-feature h3 { margin: 0 0 .65rem; font-size: clamp(1.5rem, 3.5vw, 2rem); line-height: 1.15; letter-spacing: -.045em; }
+    .blog-feature > p { max-width: 760px; margin-bottom: 1.5rem; color: var(--muted); }
+    .architecture-grid { display: grid; gap: 1rem; }
+    .architecture-card { padding: 1.15rem; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); }
+    .architecture-card h4 { margin: 0 0 .45rem; font-size: 1rem; }
+    .architecture-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .blog-takeaway { margin-top: 1rem; padding: 1rem 1.1rem; border-left: 3px solid var(--accent); background: var(--surface-raised); border-radius: 0 10px 10px 0; }
+    .blog-takeaway p { margin: 0; color: var(--text); font-size: .9rem; }
+
     .skills-layout { display: grid; gap: 1.5rem; }
     .skill-group { padding: 1.25rem 0; border-top: 1px solid var(--line); }
     .skill-group h3 { margin-bottom: .85rem; font-size: .95rem; }
@@ -243,6 +260,7 @@
       .section-heading { flex-direction: row; align-items: end; justify-content: space-between; }
       .section-intro { max-width: 380px; }
       .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .architecture-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .skills-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 3rem; }
       .about-grid { grid-template-columns: minmax(0, 1fr) 260px; gap: 3rem; }
       .contact-card { flex-direction: row; align-items: end; justify-content: space-between; }
@@ -253,8 +271,8 @@
     }
     @media (max-width: 420px) {
       .wrap { width: min(var(--max-width), calc(100% - 1.5rem)); }
-      .nav { min-height: 64px; }
-      .nav-links { gap: .8rem; font-size: .78rem; }
+      .nav { min-height: 64px; flex-wrap: wrap; padding-block: .5rem; }
+      .nav-links { order: 3; width: 100%; justify-content: space-between; gap: .3rem; font-size: .75rem; }
       .nav-actions .button { display: none; }
       .brand { font-size: .9rem; }
     }
@@ -273,6 +291,7 @@
       </a>
       <div class="nav-links">
         <a href="#projects">Projects</a>
+        <a href="#blog">Blog</a>
         <a href="#skills">Skills</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
@@ -344,6 +363,36 @@
             </div>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section" id="blog" aria-labelledby="blog-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-kicker">Ideas &amp; writing</p><h2 id="blog-title">Notes on data engineering.</h2></div>
+          <p class="section-intro">Practical thoughts on the architectures and trade-offs behind modern data systems.</p>
+        </div>
+        <article class="blog-feature">
+          <div class="blog-meta">
+            <span class="tag">Data architecture</span>
+            <span class="tag">Batch &amp; streaming</span>
+          </div>
+          <h3>Data Processing Design Patterns</h3>
+          <p>How Lambda and Kappa architectures combine historical accuracy with timely insights—and the operational trade-offs to consider when choosing between them.</p>
+          <div class="architecture-grid">
+            <section class="architecture-card" aria-labelledby="lambda-title">
+              <h4 id="lambda-title">Lambda: two paths, one view</h4>
+              <p>A batch layer processes the complete historical dataset for accurate results, while a speed layer handles recent events with low latency. A serving layer brings both views together. This flexibility comes with the cost of maintaining two processing paths.</p>
+            </section>
+            <section class="architecture-card" aria-labelledby="kappa-title">
+              <h4 id="kappa-title">Kappa: process everything as a stream</h4>
+              <p>A streaming layer handles both new events and replayed history from an immutable event log, with a serving layer exposing the resulting views. One processing path can simplify the design, but replaying large backlogs takes resources and the streaming system needs ongoing operations.</p>
+            </section>
+          </div>
+          <div class="blog-takeaway">
+            <p><strong>The design takeaway:</strong> choose based on your latency and correctness needs, data replay strategy, operational capacity, and cost—not just whether a system is described as “real time.”</p>
+          </div>
+        </article>
       </div>
     </section>
 
